@@ -1,0 +1,8 @@
+dist/
+output/
+review/
+.playwright-cli/
+node_modules/
+.DS_Store
+
+handoff.md

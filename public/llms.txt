@@ -1,0 +1,27 @@
+# HoMyDash! — app information
+
+> An iPhone dashcam app in development by Marco Massari Calderone, United Kingdom.
+
+The product is in development. No release date, store availability, certified
+hardware matrix or implemented modular purchase catalogue is announced here.
+The planned first release focuses on manual recording, saving, reviewing and
+exporting, with one video source at a time. Ray-Ban support depends on verified
+compatibility and authorised Meta availability. The app privacy notice is still
+in preparation. Website content must not be treated as a complete privacy policy.
+
+## English
+
+- [Product](https://homydash.marcomc.com/): Product scope and development status.
+- [Support](https://homydash.marcomc.com/support/): Recording guidance and contact.
+- [Privacy status](https://homydash.marcomc.com/privacy/): Notice in preparation.
+
+## Languages
+
+- [Italiano](https://homydash.marcomc.com/it/)
+- [Español (España)](https://homydash.marcomc.com/es/)
+- [Français](https://homydash.marcomc.com/fr/)
+- [Português (Portugal)](https://homydash.marcomc.com/pt/)
+
+Each language has /support/ and /privacy/ below its home URL.
+Public contact: <marco@marcomc.com>. Callback /meta is a neutral fallback and does
+not confirm authentication. The site does not process callback codes.

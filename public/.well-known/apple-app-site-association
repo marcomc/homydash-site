@@ -1,0 +1,10 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["P73JP6JAPH.com.marcomc.OhMyDash"],
+        "components": [{"/": "/meta", "comment": "Proposed OhMyDash callback on homydash.marcomc.com"}]
+      }
+    ]
+  }
+}
