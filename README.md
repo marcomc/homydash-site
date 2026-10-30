@@ -35,7 +35,7 @@ log request paths or query strings. Unknown paths return HTTP 404.
 | Home | `/` | `/it/`, `/es/`, `/fr/`, `/pt/` |
 | Support | `/support/` | `/{locale}/support/` |
 | Privacy status | `/privacy/` | `/{locale}/privacy/` |
-| Callback fallback | `/meta` | `/{locale}/meta` |
+| Callback fallback | `/meta/` | `/{locale}/meta/` |
 
 English is the default; Spanish targets Spain and Portuguese targets Portugal.
 The native language disclosure preserves the current page without JavaScript.
@@ -105,7 +105,7 @@ Pages does not apply it.** Response headers must be verified on the real host;
 the local preview's headers are not production evidence.
 
 AASA is at `/.well-known/apple-app-site-association`. It contains only
-`P73JP6JAPH.com.marcomc.OhMyDash` and the exact `/meta` match. The hostname and
+`P73JP6JAPH.com.marcomc.OhMyDash` and the exact `/meta/` match. The hostname and
 application identifier remain independent of the public brand spelling.
 There are no tokens, wildcards or alternate app identifiers.
 
@@ -115,7 +115,7 @@ Before the coordinator enables app integration, verify the actual response:
 curl --silent --show-error --dump-header - \
   https://homydash.marcomc.com/.well-known/apple-app-site-association
 curl --silent --show-error --dump-header - \
-  https://homydash.marcomc.com/meta
+  https://homydash.marcomc.com/meta/
 ```
 
 The project’s expected AASA response is HTTP 200 directly over valid HTTPS, with
@@ -125,9 +125,8 @@ may receive a different MIME type. This alone does not establish Apple
 rejection: keep the project MIME target separate from actual association
 acceptance. The coordinator checks the Apple associated-domains CDN after
 valid HTTPS before introducing a header-capable front end. Do not call the
-association ready until the applicable live checks pass. GitHub directory
-routing may redirect `/meta` to `/meta/`; a front end should serve the exact
-callback path directly if required by the integration.
+association ready until the applicable live checks pass. The exact callback is `/meta/`, including its trailing slash; GitHub serves
+that path directly. The older `/meta` redirects and is not permitted by AASA.
 
 The callback has no scripts or authentication backend, does not inspect or
 reflect parameters, and uses a no-referrer policy. The initial request still

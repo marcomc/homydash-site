@@ -12,12 +12,18 @@ for (const [lang, [, tag]] of Object.entries(languages)) {
   assert.equal(content[lang].help.length, 4);
   for (const value of Object.values(content[lang]).flat(2)) assert.ok(typeof value === 'string' && value.trim(), `${lang}: empty content`);
   for (const page of ['', 'support', 'privacy', 'meta']) {
-    const path = `${lang === 'en' ? '/' : `/${lang}/`}${page}${page && page !== 'meta' ? '/' : ''}`;
+    const path = `${lang === 'en' ? '/' : `/${lang}/`}${page}${page ? '/' : ''}`;
     const html = await readFile(resolve('dist', `.${path}`, 'index.html'), 'utf8');
     assert.ok(html.includes(`<html lang="${tag}">`));
     assert.ok(html.includes(`<link rel="canonical" href="${origin}${path}">`));
     assert.equal((html.match(/<h1\b/g) || []).length, 1);
     assert.equal((html.match(/hreflang="x-default"/g) || []).length, 1);
+    if (page === 'meta') {
+      for (const callback of ['/meta/', '/it/meta/', '/es/meta/', '/fr/meta/', '/pt/meta/']) {
+        assert.ok(html.includes(`href="${origin}${callback}"`), `Missing callback language URL ${callback}`);
+      }
+      assert.ok(!/href="[^"]*\/meta"/.test(html), 'Callback links must retain trailing slash');
+    }
     for (const [, [, alternate]] of Object.entries(languages)) assert.ok(html.includes(`rel="alternate" hreflang="${alternate}"`));
     assert.ok(!/<script\b|<form\b|<iframe\b|<input\b|\son\w+=/i.test(html));
     assert.ok(!/TODO|TO CONFIRM|DA CONFERMARE|App Store|US\$|19\.99|49[,.]99/.test(html));
@@ -45,7 +51,7 @@ for (const [, href] of notFound.matchAll(/href="([^"]+)"/g)) {
 }
 const aasa = JSON.parse(await readFile('dist/.well-known/apple-app-site-association', 'utf8'));
 assert.deepEqual(aasa.applinks.details.map(d => d.appIDs), [['P73JP6JAPH.com.marcomc.OhMyDash']]);
-assert.deepEqual(aasa.applinks.details.flatMap(d => d.components.map(c => c['/'])), ['/meta']);
+assert.deepEqual(aasa.applinks.details.flatMap(d => d.components.map(c => c['/'])), ['/meta/']);
 assert.equal((await stat('dist/.well-known/apple-app-site-association')).size < 128 * 1024, true);
 const sitemap = await readFile('dist/sitemap.xml', 'utf8');
 assert.equal((sitemap.match(/<loc>/g) || []).length, 10);
@@ -60,17 +66,18 @@ if (process.env.CHECK_URL) {
   const aasaResponse = await fetch(base + '/.well-known/apple-app-site-association', { redirect: 'manual' });
   assert.equal(aasaResponse.status, 200);
   assert.equal(aasaResponse.headers.get('content-type'), 'application/json');
-  for (const suffix of ['', '?code=SYNTHETIC_TEST&state=SYNTHETIC_TEST']) {
-    const response = await fetch(base + '/meta' + suffix, { redirect: 'manual' });
-    assert.equal(response.status, 200);
-    assert.equal(response.headers.get('referrer-policy'), 'no-referrer');
-    const html = await response.text();
+  for (const callback of ['/meta/', '/it/meta/', '/es/meta/', '/fr/meta/', '/pt/meta/']) {
+    const plain = await fetch(base + callback, { redirect: 'manual' });
+    const query = await fetch(base + callback + '?code=SYNTHETIC_TEST&state=SYNTHETIC_TEST', { redirect: 'manual' });
+    assert.equal(plain.status, 200);
+    assert.equal(query.status, 200);
+    assert.equal(query.headers.get('location'), null);
+    assert.equal(query.headers.get('referrer-policy'), 'no-referrer');
+    const html = await query.text();
+    assert.equal(html, await plain.text(), 'Callback must be independent of parameters');
     assert.ok(!html.includes('SYNTHETIC_TEST'));
     assert.ok(!html.includes('<script'));
   }
-  const plain = await (await fetch(base + '/meta')).text();
-  const query = await (await fetch(base + '/meta?code=SYNTHETIC_TEST')).text();
-  assert.equal(query, plain, 'Callback must be independent of parameters');
   assert.equal((await fetch(base + '/not-a-page')).status, 404);
   assert.equal((await fetch(base + '/review/editorial.md')).status, 404);
   assert.equal((await fetch(base + '/src/content.mjs')).status, 404);

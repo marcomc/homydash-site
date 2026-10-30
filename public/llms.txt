@@ -23,5 +23,5 @@ in preparation. Website content must not be treated as a complete privacy policy
 - [Português (Portugal)](https://homydash.marcomc.com/pt/)
 
 Each language has /support/ and /privacy/ below its home URL.
-Public contact: <marco@marcomc.com>. Callback /meta is a neutral fallback and does
+Public contact: <marco@marcomc.com>. Callback /meta/ is a neutral fallback and does
 not confirm authentication. The site does not process callback codes.

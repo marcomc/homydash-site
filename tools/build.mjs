@@ -1,7 +1,7 @@
 import { mkdir, rm, writeFile, cp } from 'node:fs/promises';
 import { content, languages, media } from '../src/content.mjs';
 export const origin = 'https://homydash.marcomc.com';
-export const route = (lang, page = '') => `${lang === 'en' ? '/' : `/${lang}/`}${page ? `${page}${page === 'meta' ? '' : '/'}` : ''}`;
+export const route = (lang, page = '') => `${lang === 'en' ? '/' : `/${lang}/`}${page ? `${page}/` : ''}`;
 const esc = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const p = text => `<p>${esc(text)}</p>`;
 const email = '<a href="mailto:marco@marcomc.com">marco@marcomc.com</a>';
