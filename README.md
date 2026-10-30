@@ -153,3 +153,10 @@ are not access control. The preview stays local and noindex by default.
 References: [Google localized versions](https://developers.google.com/search/docs/specialty/international/localized-versions),
 [Google robots directives](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag),
 [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages).
+
+Current deployment uses `marcomc/homydash-pages`, a public repository containing
+only generated files, and keeps `marcomc/homydash-site` private. Its Pages source
+is `main` at `/`; `.nojekyll` preserves the static `.well-known` payload. The
+public custom domain is `homydash.marcomc.com`. No token for cross-repository
+publishing is stored: the authorised operator publishes checked `dist/` output
+through the installed Git client. The local `.publication/` checkout is ignored.
