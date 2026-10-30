@@ -1,4 +1,4 @@
-name: Validate website
+name: Publish website
 on:
   push:
     branches: [main]
@@ -26,7 +26,6 @@ jobs:
         with:
           path: dist
   deploy:
-    if: vars.PAGES_ENABLED == 'true'
     needs: build
     runs-on: ubuntu-24.04
     permissions:

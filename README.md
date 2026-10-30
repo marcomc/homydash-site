@@ -2,7 +2,7 @@
 
 Small static product and support site for **HoMyDash!**, an iPhone dashcam app
 in development. Intended domain: <https://homydash.marcomc.com>.
-Sources are private; only the generated site is intended for public hosting.
+Sources are public; GitHub Pages publishes only the generated website artifact.
 
 ## Table of contents
 
@@ -75,15 +75,13 @@ on edited Markdown. No shell scripts are required.
 
 ## Publishing
 
-The owner authorised a private GitHub repository and public GitHub Pages.
-The source workflow `.github/workflows/pages.yml` builds and checks the indexable
-version and uploads only `dist/`, including `.well-known/`. It uses pinned
-official GitHub Actions and a read-only source token. Direct Pages deployment
-is opt-in with the repository variable `PAGES_ENABLED=true`; only that job can
-write Pages. The current account plan rejected Pages from a private repository.
-A public generated-output repository or a compatible GitHub plan is required;
-source visibility must remain private. Deployment details are in the local
-`handoff.md`.
+The owner authorised the public source repository `marcomc/homydash-site` and
+GitHub Pages on 30 October 2026. `.github/workflows/pages.yml` builds and checks
+an indexable artifact on pushes to `main`, uploads only `dist/` (including
+`.well-known/`) and deploys it to Pages. Official GitHub Actions are pinned.
+Source access is read-only; only the deployment job can write Pages. Local
+editorial notes, handoff and evidence remain ignored and are never uploaded.
+The earlier generated-only `homydash-pages` repository is no longer used.
 
 The local default remains a noindex preview. To prepare an indexable artifact:
 
@@ -154,9 +152,5 @@ References: [Google localized versions](https://developers.google.com/search/doc
 [Google robots directives](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag),
 [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages).
 
-Current deployment uses `marcomc/homydash-pages`, a public repository containing
-only generated files, and keeps `marcomc/homydash-site` private. Its Pages source
-is `main` at `/`; `.nojekyll` preserves the static `.well-known` payload. The
-public custom domain is `homydash.marcomc.com`. No token for cross-repository
-publishing is stored: the authorised operator publishes checked `dist/` output
-through the installed Git client. The local `.publication/` checkout is ignored.
+The Pages custom domain is `homydash.marcomc.com`. `.nojekyll` is included for
+static portability; `.well-known/` is retained in the uploaded artifact.
