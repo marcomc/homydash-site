@@ -118,12 +118,14 @@ curl --silent --show-error --dump-header - \
   https://homydash.marcomc.com/meta
 ```
 
-AASA must return HTTP 200 directly over valid HTTPS, with
+The project’s expected AASA response is HTTP 200 directly over valid HTTPS, with
 `Content-Type: application/json`, without authentication or redirect. Validate
 the response body against the source file. An extensionless JSON file on Pages
-may receive a different MIME type: a header-capable front end or separate
-hosting treatment is required if the live check fails. Do not call the
-association ready until this is resolved and verified. GitHub directory
+may receive a different MIME type. This alone does not establish Apple
+rejection: keep the project MIME target separate from actual association
+acceptance. The coordinator checks the Apple associated-domains CDN after
+valid HTTPS before introducing a header-capable front end. Do not call the
+association ready until the applicable live checks pass. GitHub directory
 routing may redirect `/meta` to `/meta/`; a front end should serve the exact
 callback path directly if required by the integration.
 
